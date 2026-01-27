@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 서울특별시약사회 새내기약사 세미나</title>
+    
+    <!-- Open Graph / Thumbnail (링크 공유 시 썸네일) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="2026 서울특별시약사회 새내기약사 세미나" />
+    <meta property="og:description" content="약사는 처음이지? 우리도 처음이었어! 새내기 약사를 위한 실전 노하우와 꿀팁." />
+    <meta property="og:image" content="세미나 썸네일.png" />
+    
+    <!-- Favicon (브라우저 탭 아이콘) -->
+    <link rel="icon" href="세미나 썸네일.png" type="image/png" />
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons (1페이지용) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Font Awesome (2페이지용) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #d5e1fc;
+        }
+        
+        @media (max-width: 768px) {
+            html {
+                font-size: 95%;
+            }
+        }
+
+        .font-cute-bold {
+            font-family: 'Do Hyeon', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 2페이지용 커스텀 컬러 */
+        .brand-mint { color: #00CC99; }
+        .bg-brand-mint { background-color: #00CC99; }
+        .border-brand-mint { border-color: #00CC99; }
+        .text-brand-navy { color: #1e293b; }
+        
+        /* 약력 팝업 스크롤바 커스텀 */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- 1페이지: 세미나 안내 컴포넌트 ---
+        const SeminarPage = ({ handleDownload, handleProfile }) => {
+            const lectures = [
+                { 
+                    id: 1, 
+                    time: "18:40 - 19:05", 
+                    title: "현장에서 만나는 공직약사: 마약 대응부터 정책까지, 약사의 역할", 
+                    speaker: "유희정 서울특별시 보건의료정책과 마약대응팀장", 
+                    color: "bg-blue-100 text-blue-800",
+                    fileName: "유희정_2026 공직약사소개.pdf",
+                    profile: `1987.3.~1991.2. 이화여자대학교 약학과 졸업
+1991.3.~1993.2. 이화여자대학교대학원 약학과 졸업
+1993.1.~2010.3. 강동구보건소, 어린이병원, 성동구보건소 근무
+2010.3.~2017.7. 서울특별시청, 서북병원 근무
+2017.7.~2020.6. 어린이병원 약제과장
+2020.7.~2021.1. 서울시청 시민건강국 보건의료정책과 의약무팀장
+2022.1.~현재 서울시청 민생사법경찰단 안전수사대 의약수사팀장
+2022.2.~2024. 서울시약사회 직능발전이사
+2024 ~ 2025 서울시청 보건의료정책과 마약대응팀장
+2026~현재 서울특별시 서북병원 약제부장`
+                },
+                { 
+                    id: 2, 
+                    time: "19:05 - 19:30", 
+                    title: "법률 실전 특강: 신규약사가 가장 많이 겪는 분쟁·사기 예방법", 
+                    speaker: "조승현 변호사", 
+                    color: "bg-indigo-100 text-indigo-800",
+                    profile: `성균관대학교 법학전문대학원 졸업
+법학박사 수료
+전)서울시약사회 자문변호사
+現 법무법인 청향 대표변호사
+現 대한약사회 자문변호사
+- 약국개국 권리금사기 사건 등 약사 관련 법적분쟁 다수 수행
+- 약사, 약국, 약사회 관련 법률자문 다수 수행`
+                },
+                { 
+                    id: 3, 
+                    time: "19:40 - 20:05", 
+                    title: "뉴미디어 시대의 약사 커리어 확장", 
+                    speaker: "이상곤 약사(안될과학 약)", 
+                    color: "bg-sky-100 text-sky-800",
+                    profile: `2011. 2 중앙대학교 약학 서울 학사
+2016. 8 중앙대학교 약학 서울 박사
+
+2018-현재 주식회사 모어사이언스 대표이사
+2016-2018 대웅제약 생명과학연구소 책임연구원
+2018-현재 유튜브 ‘안될과학’,‘코코보라’,‘안될공학’채널 운영, 대표
+2011-2016 대한약사회 Pharm Young Leader Academy 회장
+2009 대한약사회 오츠카제약 특별상 수상
+2012 노바티스 바이오캠프 한국대표 선발
+2013 노바티스 국제 바이오캠프 최우수팀 수상
+2014 미래부 장관 과학 커뮤니케이터 위촉장 수여
+2014 한국과학창의재단 ‘페임랩 코리아’ 최우수상 
+2015 한국과학창의재단 ‘랩툰’ 최우수상 
+2018 과학기술정보통신부 장관상
+2019 정주영창업경진대회 최우수상`
+                },
+                { 
+                    id: 4, 
+                    time: "20:05 - 20:30", 
+                    title: "약사회 이야기: 서울시약에 젊은약사로 다니는 김부(회)장 이야기", 
+                    speaker: "김병주 서울특별시약사회 부회장", 
+                    color: "bg-cyan-100 text-cyan-800",
+                    profile: `2012 대한약사회 청년약사위원
+2015 서울시약사회 청년약사위원
+2017 서울시약사회 청년약사이사
+2019 성북구약사회 학술이사, 대한약사회 약국경영활성화위원
+2022 성북구약사회 학술부회장, 약학정보원 상임이사, 대한약사회 정보통신 부위원장
+2025 서울시약사회 부회장, 성북구약사회 부회장
+현 참약사 대표이사`
+                },
+                { 
+                    id: 5, 
+                    time: "20:40 - 21:20", 
+                    title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", 
+                    speaker: "청년약사위원회 지수인, 권나윤, 신현수, 여인준", 
+                    color: "bg-slate-100 text-slate-800" 
+                },
+            ];
+
+            const fullSchedule = [
+                { time: "18:30 - 18:40", title: "개회 & 회장님 말씀", speaker: "김위학 회장 / 사회: 지수인 청년약사이사", type: "event" },
+                { time: "18:40 - 19:05", title: "현장에서 만나는 공직약사: 마약 대응부터 정책까지, 약사의 역할", speaker: "유희정 서울특별시 보건의료정책과 마약대응팀장", type: "lecture" },
+                { time: "19:05 - 19:30", title: "법률 실전 특강: 신규약사가 가장 많이 겪는 분쟁·사기 예방법", speaker: "조승현 변호사", type: "lecture" },
+                { time: "19:30 - 19:40", title: "Break Time", type: "break" },
+                { time: "19:40 - 20:05", title: "뉴미디어 시대의 약사 커리어 확장", speaker: "이상곤 약사(안될과학 약)", type: "lecture" },
+                { time: "20:05 - 20:30", title: "약사회 이야기: 서울시약에 젊은약사로 다니는 김부(회)장 이야기", speaker: "김병주 서울특별시약사회 부회장", type: "lecture" },
+                { time: "20:30 - 20:40", title: "Break Time", type: "break" },
+                { 
+                    time: "20:40 - 21:20", 
+                    type: "lecture",
+                    complexContent: [
+                        { title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", speaker: "청년약사위원회 지수인, 권나윤, 신현수, 여인준", type: "lecture" },
+                        { title: "패널들과 함께하는 Q&A", speaker: "패널 및 청년약사위원회", type: "event" }
+                    ]
+                },
+                { time: "21:20 - 21:30", title: "클로징", speaker: "사회: 여인준 청년약사이사", type: "event" },
+            ];
+
+            return (
+                <div className="animate-fade-in-up">
+                    {/* Hero Section */}
+                    <header className="pt-8 md:pt-12 pb-16 md:pb-20 px-4 text-center">
+                        <div className="max-w-4xl mx-auto">
+                            <span className="inline-block py-2 px-4 md:px-6 rounded-full bg-[#1e293b] text-white text-base md:text-xl mb-4 md:mb-6 font-cute-bold shadow-md">
+                                2026 서울특별시약사회 새내기약사 세미나
+                            </span>
+                            <h1 className="text-3xl md:text-7xl text-slate-900 mb-4 md:mb-6 leading-tight font-cute-bold drop-shadow-sm">
+                                약사는 처음이지?<br />
+                                <span className="text-blue-600">우리도 처음이었어!</span>
+                            </h1>
+                            <p className="text-base md:text-xl text-slate-700 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                                설렘 반, 걱정 반으로 시작하는 약사 생활.<br className="hidden md:block"/>
+                                선배들이 들려주는 실전 노하우와 꿀팁을 놓치지 마세요.
+                            </p>
+                            
+                            {/* Date & Location Section */}
+                            <div className="grid grid-cols-2 md:flex md:flex-row justify-center gap-3 md:gap-4 text-left md:text-center">
+                                {/* Date Card */}
+                                <div className="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center md:justify-center gap-2 md:gap-4 w-full md:min-w-[200px]">
+                                    <div className="flex flex-row md:items-center gap-3 w-full md:w-auto">
+                                        <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                                            <i className="ph ph-calendar-check text-lg md:text-2xl"></i>
+                                        </div>
+                                        <div className="md:text-left">
+                                            <div className="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Date</div>
+                                            <div className="font-medium text-slate-800 text-xs md:text-lg leading-snug">
+                                                {/* 모바일에서는 줄바꿈(br), 데스크탑(md)에서는 숨김처리 후 한 줄로 표시 */}
+                                                1월 30일 (금)<br className="md:hidden" /> 저녁 6시 30분
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Location Card */}
+                                <div className="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center md:justify-center gap-2 md:gap-4 w-full md:min-w-[200px]">
+                                    <div className="flex flex-row md:items-center gap-3 w-full md:w-auto">
+                                        <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                                            <i className="ph ph-map-pin text-lg md:text-2xl"></i>
+                                        </div>
+                                        <div className="md:text-left">
+                                            <div className="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-wider">Location</div>
+                                            <div className="font-medium text-slate-800 text-xs md:text-lg leading-snug">
+                                                {/* 모바일에서는 줄바꿈(br), 데스크탑(md)에서는 숨김처리 후 한 줄로 표시 */}
+                                                대한약사회관<br className="md:hidden" /> 4층 대강당
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* KakaoTalk Q&A Button */}
+                            <div className="mt-8 flex justify-center">
+                                <a 
+                                    href="https://open.kakao.com/o/g8HoxAdi" 
+                                    target="_blank" 
+                                    className="flex items-center gap-3 bg-[#FEE500] text-[#3c1e1e] px-6 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-transform hover:-translate-y-1 group"
+                                >
+                                    <i className="fas fa-comment text-2xl group-hover:scale-110 transition-transform"></i>
+                                    <span className="text-lg">QnA 카카오톡 채팅방 바로가기</span>
+                                </a>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Lecture Materials */}
+                    <section className="py-16 md:py-20 bg-white relative rounded-t-3xl shadow-inner">
+                        <div className="max-w-5xl mx-auto px-4">
+                            <div className="text-center mb-10 md:mb-16">
+                                <h2 className="text-3xl md:text-4xl font-cute-bold text-slate-900 mb-2 md:mb-4">강의록 자료실</h2>
+                                <p className="text-slate-500 text-sm md:text-lg">세미나 참석 전/후에 꼭 필요한 강의 자료를 다운로드하세요.</p>
+                            </div>
+
+                            {/* 모바일 2열(grid-cols-2) 적용, 간격(gap-3) 조정 */}
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                                {lectures.map((lecture, index) => (
+                                    <div key={lecture.id} className="group bg-slate-50 border border-slate-200 rounded-2xl p-3 md:p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                                        <div className={`absolute top-0 right-0 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110`}></div>
+                                        
+                                        <div className="flex justify-between items-start mb-2 md:mb-4">
+                                            <span className={`px-2 py-1 md:px-3 md:py-1 rounded-full text-[10px] md:text-sm font-bold ${lecture.color}`}>
+                                                Lecture 0{index + 1}
+                                            </span>
+                                            <i className="ph-fill ph-file-pdf text-lg md:text-2xl text-slate-400 group-hover:text-red-500 transition-colors"></i>
+                                        </div>
+                                        
+                                        <h3 className="text-sm md:text-xl font-bold text-slate-800 mb-1 md:mb-2 line-clamp-2 min-h-[2.5rem] md:min-h-[3.5rem] tracking-tight">
+                                            {lecture.title}
+                                        </h3>
+                                        <p className="text-slate-500 text-[10px] md:text-sm mb-3 md:mb-6 flex items-center gap-1 md:gap-2 font-medium">
+                                            <i className="ph ph-microphone-stage"></i>
+                                            {lecture.speaker}
+                                        </p>
+
+                                        <div className="flex gap-2">
+                                            <button 
+                                                onClick={() => handleDownload(lecture.id, lecture.title, lecture.fileName)}
+                                                className="flex-1 bg-white border border-slate-200 text-slate-700 py-2 md:py-3 rounded-xl font-medium flex items-center justify-center gap-1 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all shadow-sm text-xs md:text-sm"
+                                            >
+                                                <i className="ph-bold ph-download-simple"></i>
+                                                강의록
+                                            </button>
+                                            {lecture.profile && (
+                                                <button 
+                                                    onClick={() => handleProfile(lecture.speaker, lecture.profile)}
+                                                    className="flex-1 bg-slate-100 border border-slate-200 text-slate-600 py-2 md:py-3 rounded-xl font-medium flex items-center justify-center gap-1 hover:bg-slate-200 transition-all shadow-sm text-xs md:text-sm"
+                                                >
+                                                    <i className="ph-bold ph-user"></i>
+                                                    연자 약력
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                                
+                                <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-3 md:p-6 flex flex-col justify-center items-center text-center text-white shadow-lg hover:shadow-blue-500/40 transition-shadow cursor-pointer"
+                                    onClick={() => handleDownload('all', '전체 자료')}
+                                >
+                                    <div className="w-10 h-10 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 md:mb-4 backdrop-blur-sm">
+                                        <i className="ph-fill ph-folder-zip text-xl md:text-3xl"></i>
+                                    </div>
+                                    <h3 className="text-sm md:text-xl mb-1 md:mb-2 font-bold leading-tight">전체 자료<br className="md:hidden"/> 일괄 다운로드</h3>
+                                    <p className="text-blue-100 text-[10px] md:text-base font-medium">5개 강의록 한번에</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Program Timetable */}
+                    <section className="py-16 md:py-20 px-4 bg-slate-50 border-t border-slate-100">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-10 md:mb-12">
+                                <h2 className="text-3xl md:text-4xl font-cute-bold text-slate-900 mb-2 md:mb-4">프로그램 일정</h2>
+                                <p className="text-slate-500 text-sm md:text-lg">알차게 준비된 세미나 타임테이블을 확인하세요.</p>
+                            </div>
+
+                            <div className="space-y-3 md:space-y-4">
+                                {fullSchedule.map((item, index) => (
+                                    <div key={index} className={`flex flex-col md:flex-row md:items-center p-5 md:p-6 rounded-2xl shadow-sm border transition-colors ${
+                                        item.type === 'break' 
+                                            ? 'bg-slate-100 border-slate-200' 
+                                            : 'bg-white border-slate-100 hover:border-blue-200'
+                                    }`}>
+                                        <div className={`w-full md:w-36 font-bold mb-1 md:mb-0 text-sm md:text-lg ${
+                                            item.type === 'break' ? 'text-slate-500' : 'text-slate-600'
+                                        }`}>
+                                            {item.time}
+                                        </div>
+                                        
+                                        {item.type === 'break' ? (
+                                            <div className="flex-1 flex items-center gap-2 text-slate-500 font-bold text-sm md:text-lg">
+                                                <i className="ph-fill ph-coffee text-lg md:text-xl"></i>
+                                                {item.title}
+                                            </div>
+                                        ) : (
+                                            <div className="flex-1">
+                                                {item.complexContent ? (
+                                                    <div className="flex flex-col gap-3 md:gap-4">
+                                                        {item.complexContent.map((subItem, subIndex) => (
+                                                            <div key={subIndex} className={subIndex > 0 ? "pt-3 md:pt-4 border-t border-dashed border-slate-200" : ""}>
+                                                                <h4 className="font-bold text-base md:text-lg mb-0.5 md:mb-1 text-slate-800 tracking-tight">
+                                                                    {subItem.title}
+                                                                </h4>
+                                                                <p className="text-xs md:text-sm text-slate-500 flex items-center gap-2 font-medium">
+                                                                    <span className={`px-2 py-0.5 rounded text-[10px] md:text-xs font-bold ${
+                                                                        subItem.type === 'event' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-600'
+                                                                    }`}>
+                                                                        {subItem.type === 'event' ? '진행' : '강연'}
+                                                                    </span>
+                                                                    {subItem.speaker}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <h4 className={`font-bold text-base md:text-lg mb-0.5 md:mb-1 ${item.type === 'event' ? 'text-slate-700' : 'text-slate-800'} tracking-tight`}>
+                                                            {item.title}
+                                                        </h4>
+                                                        {item.speaker && (
+                                                            <p className="text-xs md:text-sm text-slate-500 flex items-center gap-2 font-medium">
+                                                                <span className={`px-2 py-0.5 rounded text-[10px] md:text-xs font-bold ${
+                                                                    item.type === 'event' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-600'
+                                                                }`}>
+                                                                    {item.type === 'event' ? '진행' : '강연'}
+                                                                </span>
+                                                                {item.speaker}
+                                                            </p>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // --- 2페이지: 청년약사위원회 안내 컴포넌트 ---
+        const SecondPage = () => {
+            return (
+                <div className="bg-[#f8fafc] text-slate-700 animate-fade-in-up">
+                    {/* 1. HERO SECTION */}
+                    {/* 수정: 높이 조절 (모바일: min-h-[45vh], 데스크탑: md:min-h-[70vh]) */}
+                    <header className="bg-[#1e293b] text-white min-h-[45vh] md:min-h-[70vh] flex flex-col items-center text-center px-4 relative overflow-hidden pt-8 md:pt-12">
+                        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                            <i className="fas fa-pills absolute top-10 left-10 text-9xl"></i>
+                            <i className="fas fa-microscope absolute bottom-20 right-10 text-9xl"></i>
+                            <i className="fas fa-heartbeat absolute top-40 right-20 text-8xl"></i>
+                        </div>
+
+                        <div className="z-10 w-full max-w-4xl mx-auto">
+                            <span className="inline-block py-2 px-4 md:px-6 rounded-full bg-brand-mint text-[#1e293b] text-base md:text-xl mb-4 md:mb-6 font-cute-bold shadow-md tracking-wide">
+                                Welcome Pharmacist
+                            </span>
+                            <h1 className="text-3xl md:text-7xl text-white mb-4 md:mb-6 leading-tight font-cute-bold drop-shadow-sm">
+                                약사로서의 첫 시작,<br/>
+                                <span className="text-brand-mint">혼자가 아닌 우리로!</span>
+                            </h1>
+                            {/* 수정: 모바일 줄바꿈 추가 (<br className="md:hidden"/>) */}
+                            <p className="text-base md:text-xl text-slate-300 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed font-medium break-keep">
+                                서울특별시약사회 청년약사위원회가<br className="md:hidden"/> 당신의 설레는 시작을 함께합니다.<br/>
+                                낯선 약사 생활, 든든한 울타리가 되어드리겠습니다.
+                            </p>
+                        </div>
+                    </header>
+
+                    {/* 2. CHECKLIST */}
+                    {/* 수정: 헤더 높이가 줄어들었으므로 겹침 정도(-mt)를 조정하여 레이아웃 유지 (-mt-10) */}
+                    <section className="max-w-4xl mx-auto -mt-10 px-4 relative z-20 pb-12">
+                        <div className="bg-white rounded-2xl p-8 shadow-xl border-t-4 border-brand-mint">
+                            <h2 className="text-2xl font-cute-bold text-center mb-6 text-[#1e293b]">
+                                <i className="fas fa-check-circle text-brand-mint mr-2"></i>새내기 약사님, 이것만은 꼭 챙기세요!
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div className="text-center group">
+                                    <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-3 text-[#1e293b] font-bold border-2 border-brand-mint group-hover:bg-brand-mint group-hover:text-white transition">1</div>
+                                    <h3 className="font-bold mb-1 text-[#1e293b]">면허증 수령</h3>
+                                    <p className="text-xs text-slate-500">보건복지부<br/>면허 발급 확인</p>
+                                </div>
+                                <div className="text-center group">
+                                    <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-3 text-[#1e293b] font-bold border-2 border-brand-mint group-hover:bg-brand-mint group-hover:text-white transition">2</div>
+                                    <h3 className="font-bold mb-1 text-[#1e293b]">회원신고</h3>
+                                    <p className="text-xs text-slate-500">매년 1회<br/>관할 분회 등록</p>
+                                </div>
+                                <div className="text-center group">
+                                    <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-3 text-[#1e293b] font-bold border-2 border-brand-mint group-hover:bg-brand-mint group-hover:text-white transition">3</div>
+                                    <h3 className="font-bold mb-1 text-[#1e293b]">면허신고</h3>
+                                    <p className="text-xs text-slate-500">3년 주기<br/>효력 유지 의무</p>
+                                </div>
+                                <div className="text-center group">
+                                    <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-3 text-[#1e293b] font-bold border-2 border-brand-mint group-hover:bg-brand-mint group-hover:text-white transition">4</div>
+                                    <h3 className="font-bold mb-1 text-[#1e293b]">소통 채널 입장</h3>
+                                    <p className="text-xs text-slate-500">서울시 청년약사<br/>오픈채팅방</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 3. WHY US */}
+                    <section className="py-16 px-6 max-w-5xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-cute-bold text-[#1e293b] mb-3">약사회는 당신의 가장 강력한 방패입니다</h2>
+                            <p className="text-slate-500">개인이 해결하기 힘든 거대한 파도 앞에서 우리는 함께 목소리를 냅니다.</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-white p-8 rounded-xl border border-slate-200 hover:border-[#1e293b] transition duration-300 shadow-sm">
+                                <div className="text-4xl text-[#1e293b] mb-4"><i className="fas fa-shield-alt"></i></div>
+                                <h3 className="text-xl font-bold mb-2">흔들리지 않는 직능 수호</h3>
+                                <p className="text-slate-600 leading-relaxed">
+                                    약사법 개정, 한약사 문제 등 약사의 생존권과 직결된 정책 현안에 대해 정부와 국회에 강력한 목소리를 냅니다.
+                                </p>
+                            </div>
+                            <div className="bg-white p-8 rounded-xl border border-slate-200 hover:border-brand-mint transition duration-300 shadow-sm">
+                                <div className="text-4xl text-brand-mint mb-4"><i className="fas fa-bullhorn"></i></div>
+                                <h3 className="text-xl font-bold mb-2">청년의 시선으로 정책 참여</h3>
+                                <p className="text-slate-600 leading-relaxed">
+                                    2030 약사들의 현실적인 고충을 정책에 반영하여, 우리가 일할 미래 환경을 직접 바꿔나갑니다.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 4. BENEFITS */}
+                    <section className="bg-white py-16 px-6">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-12">
+                                <span className="text-brand-mint font-bold tracking-widest text-sm">MEMBERSHIP BENEFITS</span>
+                                <h2 className="text-3xl md:text-4xl font-cute-bold text-[#1e293b] mt-2">회비가 아깝지 않은, 회원만의 6가지 특권</h2>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {/* Items */}
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-[#1e293b] mr-3">
+                                            <i className="fas fa-file-medical-alt"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">든든한 보호막:<br/>배상책임보험</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        조제 과오 등 사고 발생 시 <strong>'약사전문인 배상책임보험'</strong> 자동 가입. 사고 처리 대행 및 배상 지원.
+                                    </p>
+                                </div>
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-700 mr-3">
+                                            <i className="fas fa-graduation-cap"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">실속 있는 혜택:<br/>연수교육비 지원</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        법정 의무 교육인 연수교육 시 <strong>비용 할인 혜택</strong>. 고품질 세미나 및 학술정보 제공.
+                                    </p>
+                                </div>
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 mr-3">
+                                            <i className="fas fa-laptop-code"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">똑똑한 비서:<br/>IT & 법률 상담</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        청구 프로그램 <strong>PHARM IT 3000 무료</strong> 사용. 홈페이지를 통한 세무/법률 전문가 무료 상담 지원.
+                                    </p>
+                                </div>
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 mr-3">
+                                            <i className="fas fa-bell"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">정보의 중심:<br/>실시간 알림</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        <strong>약사공론, 서울약사회지</strong> 무료 구독. 긴급 정책 변화 및 중요 행사를 SMS로 실시간 안내.
+                                    </p>
+                                </div>
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 mr-3">
+                                            <i className="fas fa-vote-yea"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">세상을 바꾸는 힘:<br/>참정권 행사</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        대한약사회장 및 지부장 선거 <strong>투표권</strong> 부여. 나의 한 표로 약사 사회의 리더와 정책을 결정합니다.
+                                    </p>
+                                </div>
+                                <div className="bg-slate-50 p-6 rounded-lg hover:shadow-md transition">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center text-teal-700 mr-3">
+                                            <i className="fas fa-hands-helping"></i>
+                                        </div>
+                                        <h3 className="font-bold text-lg">현장 지원:<br/>민원 & 업무 지원</h3>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        가운, 명찰 등 웰컴 키트 지원(분회별 상이). 현장의 애로사항을 직접 건의하고 해결받는 공식 창구.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 5. COMMUNITY */}
+                    <section className="py-16 px-6 bg-[#1e293b] text-white relative overflow-hidden">
+                        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-brand-mint opacity-20 rounded-full blur-3xl"></div>
+                        
+                        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 relative z-10">
+                            <div className="flex-1">
+                                <h2 className="text-3xl font-cute-bold mb-4">
+                                    청년 약사들의 놀이터,<br/>
+                                    <span className="text-brand-mint">서울시 청년약사위원회</span>
+                                </h2>
+                                <p className="mb-8 opacity-90 leading-relaxed">
+                                    부담스러운 면접이나 의무 활동은 없습니다.<br/>
+                                    같은 고민을 하는 또래 약사들과 즐겁게 소통하고 싶다면<br/>
+                                    언제든 놀러 오세요!
+                                </p>
+                                
+                                <ul className="space-y-4 mb-8">
+                                    <li className="flex items-start">
+                                        <i className="fas fa-comments text-brand-mint mt-1 mr-3"></i>
+                                        <div>
+                                            <strong className="block text-lg">실시간 소통 (Open Chat)</strong>
+                                            <span className="text-sm opacity-80">"이 처방 괜찮을까요?" 궁금할 때 바로 물어보는 선배들의 꿀팁 공유방!</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <i className="fas fa-glass-cheers text-brand-mint mt-1 mr-3"></i>
+                                        <div>
+                                            <strong className="block text-lg">끈끈한 네트워킹</strong>
+                                            <span className="text-sm opacity-80">타운홀 미팅, 번개 모임, 동호회(등산, 봉사)로 만드는 평생 인맥.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div className="bg-white text-[#1e293b] p-6 rounded-2xl shadow-xl w-full md:w-80 text-center">
+                                <h3 className="font-bold text-xl mb-2">지금 바로 입장하세요!</h3>
+                                <p className="text-sm text-slate-500 mb-4">서울시 청년약사 공식 오픈채팅방</p>
+                                <div className="bg-slate-100 w-48 h-48 mx-auto rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-slate-300">
+                                    <div className="text-center">
+                                        <i className="fas fa-qrcode text-6xl text-slate-400 mb-2"></i>
+                                        <p className="text-xs text-slate-400">QR Code</p>
+                                    </div>
+                                </div>
+                                <p className="font-mono bg-slate-100 py-2 rounded text-sm font-bold tracking-wider">CODE: kpa****</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 6. GUIDE */}
+                    <section className="py-16 px-6 max-w-4xl mx-auto">
+                        <div className="text-center mb-10">
+                            <h2 className="text-3xl font-cute-bold text-[#1e293b]">복잡한 신고? 이것만 기억하면 끝!</h2>
+                            <p className="text-slate-500 mt-2">회원신고와 면허신고, 확실하게 구분해 드립니다.</p>
+                        </div>
+
+                        <div className="overflow-x-auto mb-10">
+                            <table className="w-full text-left border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+                                <thead className="bg-slate-100 text-[#1e293b]">
+                                    <tr>
+                                        <th className="p-4 text-center font-bold border-b border-r">구분</th>
+                                        <th className="p-4 text-center font-bold border-b border-r bg-blue-50 text-blue-900">
+                                            회원신고<br className="md:hidden"/>(구 신상신고)
+                                        </th>
+                                        <th className="p-4 text-center font-bold border-b text-slate-700">면허신고</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm md:text-base">
+                                    <tr>
+                                        <td className="p-4 text-center font-bold border-b border-r bg-slate-50">목적</td>
+                                        <td className="p-4 border-b border-r bg-blue-50/30">회원 권리 및 혜택 향유<br/>(보험, 교육할인 등)</td>
+                                        <td className="p-4 border-b">면허 효력 유지<br/>(정부 법적 의무)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 text-center font-bold border-b border-r bg-slate-50">주기</td>
+                                        <td className="p-4 border-b border-r bg-blue-50/30"><strong>매년 1회</strong></td>
+                                        <td className="p-4 border-b"><strong>3년마다 1회</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 text-center font-bold border-r bg-slate-50">미이행 시</td>
+                                        <td className="p-4 border-r bg-blue-50/30 text-slate-600">투표권 제한, 보험 미적용</td>
+                                        <td className="p-4 text-red-600 font-bold">면허 효력 정지<br/><span className="text-xs font-normal text-slate-500">(업무 불가)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="bg-emerald-50 border border-brand-mint rounded-xl p-6 text-center">
+                            <h3 className="text-xl font-bold text-[#1e293b] mb-2"><i className="fas fa-magic text-brand-mint mr-2"></i>One-Stop 서비스 안내</h3>
+                            <p className="text-slate-700 mb-4">
+                                대한약사회 통합 시스템(KPA-Pass)에서 <br className="md:hidden"/><strong>회원신고를 하면 면허신고까지</strong> 한 번에 처리됩니다.
+                            </p>
+                            <a href="https://license.kpanet.or.kr/" target="_blank" className="inline-block bg-[#1e293b] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition shadow-lg">
+                                통합 신고센터 바로가기
+                            </a>
+                            <p className="mt-4 text-xs text-slate-500">문의: 서울특별시약사회 사무국 (02-581-1001)</p>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        // --- 메인 App 컴포넌트 ---
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('seminar'); // 'seminar' | 'tips'
+            
+            // 일반 알림 팝업
+            const [showPopup, setShowPopup] = useState(false);
+            const [popupContent, setPopupContent] = useState({ title: '', message: '', icon: '' });
+
+            // 강사 약력 팝업
+            const [showProfilePopup, setShowProfilePopup] = useState(false);
+            const [profileContent, setProfileContent] = useState({ name: '', text: '' });
+
+            const OPEN_DATE = new Date('2026-01-30T17:00:00');
+            const CLOSE_DATE = new Date('2026-01-30T22:00:00');
+
+            const handleDownload = (id, title, fileName) => {
+                const now = new Date();
+                
+                // 시간 제한 체크: 시작 시간 제한 없음, 종료 시간만 체크
+                if (now > CLOSE_DATE) {
+                    setPopupContent({ icon: "ph-clock-after-noon", title: "다운로드 종료", message: "강의록 다운로드 기간이\n종료되었습니다.\n(1/30 22:00 마감)" });
+                    setShowPopup(true);
+                    return;
+                }
+
+                // 2번 강의 (조승현 변호사) 예외 처리
+                if (id === 2) {
+                    setPopupContent({ icon: "ph-camera", title: "강의록 공유 불가", message: "강의록 공유가 불가능해요😢\n변호사님의 강연을 촬영해주세요 📸" });
+                    setShowPopup(true);
+                    return;
+                }
+
+                // 일반 다운로드 로직
+                if (fileName) {
+                    window.open(fileName, '_blank');
+                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 확인합니다.` });
+                } else {
+                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 다운로드합니다.` });
+                }
+                setShowPopup(true);
+            };
+
+            const handleProfile = (name, text) => {
+                setProfileContent({ name, text });
+                setShowProfilePopup(true);
+            };
+
+            return (
+                <div className="min-h-screen relative flex flex-col" style={{ backgroundColor: '#d5e1fc' }}>
+                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+                        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-white/20 blur-3xl"></div>
+                        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-400/10 blur-3xl"></div>
+                    </div>
+
+                    {/* Navigation Bar */}
+                    <nav className="fixed w-full z-50 bg-[#1e293b] shadow-md border-b border-slate-700">
+                        <div className="max-w-6xl mx-auto px-4">
+                            <div className="flex flex-col md:flex-row justify-between items-center h-auto md:h-16 py-2 md:py-0 gap-2 md:gap-0">
+                                {/* Logo & Title */}
+                                <div 
+                                    className="flex items-center gap-3 cursor-pointer"
+                                    onClick={() => setCurrentPage('seminar')}
+                                >
+                                    <div className="h-8 md:h-10 flex items-center"> 
+                                        <img 
+                                            src="서울시약 ci collection-03.png" 
+                                            alt="서울특별시약사회 로고" 
+                                            className="h-full w-auto object-contain"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
+                                            }}
+                                        />
+                                        <div className="hidden h-full px-3 border border-dashed border-slate-500 rounded bg-white/5 items-center justify-center text-xs text-white/50 whitespace-nowrap">
+                                            서울시약사회 로고
+                                        </div>
+                                    </div>
+                                    <span className="text-sm md:text-xl text-[#d5e1fc] font-cute-bold tracking-wide">
+                                        2026 서울특별시약사회 새내기약사 세미나
+                                    </span>
+                                </div>
+
+                                {/* Menu Tabs */}
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage('seminar')}
+                                        className={`px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all ${
+                                            currentPage === 'seminar' 
+                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
+                                                : 'text-slate-300 hover:text-white hover:bg-white/10'
+                                        }`}
+                                    >
+                                        세미나 안내
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentPage('tips')}
+                                        className={`px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1 ${
+                                            currentPage === 'tips' 
+                                                ? 'bg-brand-mint text-[#1e293b] shadow-lg shadow-emerald-500/30' 
+                                                : 'text-slate-300 hover:text-white hover:bg-white/10'
+                                        }`}
+                                    >
+                                        청년약사위원회 안내
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Main Content Area */}
+                    <main className="flex-grow pt-24 md:pt-20">
+                        {currentPage === 'seminar' ? (
+                            <SeminarPage handleDownload={handleDownload} handleProfile={handleProfile} />
+                        ) : (
+                            <SecondPage />
+                        )}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 text-slate-400 py-10 md:py-12 px-4 mt-auto">
+                        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+                            <div>
+                                <div className="flex items-center gap-2 mb-4">
+                                    <i className="ph-fill ph-pill text-xl md:text-2xl text-blue-500"></i>
+                                    <span className="text-lg md:text-xl text-white font-cute-bold tracking-wide">2026 서울특별시약사회 새내기약사 세미나</span>
+                                </div>
+                                <p className="text-xs md:text-sm leading-relaxed mb-6">
+                                    새내기 약사님들의 힘찬 출발을 응원합니다.<br/>
+                                    본 세미나는 <strong>서울특별시약사회 청년약사위원회</strong>와 함께합니다.
+                                </p>
+                            </div>
+                            <div className="md:text-right">
+                                <h4 className="text-white font-bold mb-4 text-base md:text-lg">Follow Us</h4>
+                                <div className="flex flex-col sm:flex-row gap-3 justify-start md:justify-end">
+                                    <a href="http://www.spa.or.kr" target="_blank" className="flex items-center justify-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-xl bg-slate-800 text-white hover:bg-blue-600 transition-all group w-full sm:w-auto hover:-translate-y-1 shadow-lg">
+                                        <i className="ph-fill ph-house text-xl md:text-2xl group-hover:scale-110 transition-transform"></i>
+                                        <span className="font-bold text-sm md:text-base">홈페이지</span>
+                                    </a>
+                                    <a href="https://www.instagram.com/spa_official2" target="_blank" className="flex items-center justify-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-xl bg-slate-800 text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all group w-full sm:w-auto hover:-translate-y-1 shadow-lg">
+                                        <i className="ph-fill ph-instagram-logo text-xl md:text-2xl group-hover:scale-110 transition-transform"></i>
+                                        <span className="font-bold text-sm md:text-base">Instagram</span>
+                                    </a>
+                                    <a href="https://youtube.com/@seoulsiyak?themeRefresh=1" target="_blank" className="flex items-center justify-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-xl bg-slate-800 text-white hover:bg-red-600 transition-all group w-full sm:w-auto hover:-translate-y-1 shadow-lg">
+                                        <i className="ph-fill ph-youtube-logo text-xl md:text-2xl group-hover:scale-110 transition-transform"></i>
+                                        <span className="font-bold text-sm md:text-base">Youtube</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="max-w-6xl mx-auto mt-10 md:mt-12 pt-10 md:pt-12 border-t border-slate-800 flex flex-col items-center justify-center gap-4 md:gap-6">
+                            <img 
+                                src="서울시약 ci collection-14.png" 
+                                alt="서울특별시약사회 하단 로고" 
+                                className="h-12 md:h-16 w-auto" 
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.nextSibling.style.display = 'flex';
+                                }}
+                            />
+                            <div className="hidden h-12 md:h-16 w-48 border border-dashed border-slate-700 rounded bg-slate-800 items-center justify-center text-xs text-slate-500">
+                                서울시약사회 로고 영역
+                            </div>
+                            <div className="text-[10px] md:text-xs text-center text-slate-500">
+                                &copy; 2026 Seoul Pharmaceutical Association. All rights reserved.
+                            </div>
+                        </div>
+                    </footer>
+
+                    {/* Custom Popup Modal (Alert) */}
+                    {showPopup && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 animate-fade-in-up">
+                            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowPopup(false)}></div>
+                            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl relative z-10 max-w-xs md:max-w-sm w-full text-center transform transition-all scale-100 border border-white/20">
+                                <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-inner ${
+                                    popupContent.icon.includes('lock') ? 'bg-slate-100 text-slate-500' : 'bg-blue-50 text-blue-600'
+                                }`}>
+                                    <i className={`ph-fill ${popupContent.icon} text-3xl md:text-4xl animate-bounce`}></i>
+                                </div>
+                                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 md:mb-3 font-cute-bold">{popupContent.title}</h3>
+                                <p className="text-slate-500 mb-6 md:mb-8 text-base md:text-lg whitespace-pre-line leading-relaxed">
+                                    {popupContent.message}
+                                </p>
+                                <button 
+                                    onClick={() => setShowPopup(false)}
+                                    className={`w-full text-white font-bold py-3 md:py-4 rounded-2xl transition shadow-lg text-base md:text-lg ${
+                                        popupContent.icon.includes('lock') 
+                                            ? 'bg-slate-600 hover:bg-slate-700 hover:shadow-slate-500/30' 
+                                            : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/30'
+                                    }`}
+                                >
+                                    확인
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Profile Popup Modal */}
+                    {showProfilePopup && (
+                        <div className="fixed inset-0 z-[150] flex items-center justify-center px-4 animate-fade-in-up">
+                            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowProfilePopup(false)}></div>
+                            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl relative z-10 max-w-lg w-full transform transition-all scale-100 border border-white/20 flex flex-col max-h-[80vh]">
+                                <div className="text-center mb-6">
+                                    <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-600">
+                                        <i className="ph-fill ph-user-list text-3xl"></i>
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-slate-900 font-cute-bold">{profileContent.name}</h3>
+                                    <p className="text-sm text-slate-500 mt-1">연자 약력</p>
+                                </div>
+                                
+                                <div className="flex-1 overflow-y-auto scrollbar-hide bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <pre className="text-sm md:text-base text-slate-700 whitespace-pre-line font-medium leading-relaxed font-sans">
+                                        {profileContent.text}
+                                    </pre>
+                                </div>
+
+                                <button 
+                                    onClick={() => setShowProfilePopup(false)}
+                                    className="w-full bg-slate-800 text-white font-bold py-3 md:py-4 rounded-2xl mt-6 hover:bg-slate-700 transition shadow-lg text-base md:text-lg"
+                                >
+                                    닫기
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
