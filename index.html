@@ -159,7 +159,7 @@
                     id: 5, 
                     time: "20:40 - 21:20", 
                     title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", 
-                    speaker: "청년약사위원회 지수인, 권나윤, 신현수, 여인준", 
+                    speaker: "청년약사위원회 지수인, 권나윤, 신현수", 
                     color: "bg-slate-100 text-slate-800" 
                 },
             ];
@@ -176,11 +176,11 @@
                     time: "20:40 - 21:20", 
                     type: "lecture",
                     complexContent: [
-                        { title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", speaker: "청년약사위원회 지수인, 권나윤, 신현수, 여인준", type: "lecture" },
+                        { title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", speaker: "청년약사위원회 지수인, 권나윤, 신현수", type: "lecture" },
                         { title: "패널들과 함께하는 Q&A", speaker: "패널 및 청년약사위원회", type: "event" }
                     ]
                 },
-                { time: "21:20 - 21:30", title: "클로징", speaker: "사회: 여인준 청년약사이사", type: "event" },
+                { time: "21:20 - 21:30", title: "클로징", speaker: "사회: 청년약사이사", type: "event" },
             ];
 
             return (
@@ -586,16 +586,18 @@
                                 </ul>
                             </div>
                             
-                            <div className="bg-white text-[#1e293b] p-6 rounded-2xl shadow-xl w-full md:w-80 text-center">
-                                <h3 className="font-bold text-xl mb-2">지금 바로 입장하세요!</h3>
-                                <p className="text-sm text-slate-500 mb-4">서울시 청년약사 공식 오픈채팅방</p>
-                                <div className="bg-slate-100 w-48 h-48 mx-auto rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-slate-300">
-                                    <div className="text-center">
-                                        <i className="fas fa-qrcode text-6xl text-slate-400 mb-2"></i>
-                                        <p className="text-xs text-slate-400">QR Code</p>
-                                    </div>
-                                </div>
-                                <p className="font-mono bg-slate-100 py-2 rounded text-sm font-bold tracking-wider">CODE: kpa****</p>
+                            <div className="bg-white text-[#1e293b] p-6 rounded-2xl shadow-xl w-full md:w-80 text-center flex flex-col justify-center items-center">
+                                <h3 className="font-bold text-xl mb-4">지금 바로 입장하세요!</h3>
+                                <p className="text-sm text-slate-500 mb-6">서울시 청년약사 공식 오픈채팅방</p>
+                                <a 
+                                    href="https://open.kakao.com/o/g8HoxAdi" 
+                                    target="_blank" 
+                                    className="flex items-center justify-center gap-3 bg-[#FEE500] text-[#3c1e1e] w-full py-4 rounded-xl font-bold shadow-md hover:shadow-lg transition-transform hover:-translate-y-1 group"
+                                >
+                                    <i className="fas fa-comment text-2xl group-hover:scale-110 transition-transform"></i>
+                                    <span className="text-lg">오픈채팅방 입장하기</span>
+                                </a>
+                                <p className="mt-4 text-xs text-slate-400">입장 코드: kpa****</p>
                             </div>
                         </div>
                     </section>
