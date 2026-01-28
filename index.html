@@ -180,7 +180,7 @@
                         { title: "패널들과 함께하는 Q&A", speaker: "패널 및 청년약사위원회", type: "event" }
                     ]
                 },
-                { time: "21:20 - 21:30", title: "클로징", speaker: "사회: 청년약사이사", type: "event" },
+                { time: "21:20 - 21:30", title: "클로징", speaker: "사회: 여인준 청년약사이사", type: "event" },
             ];
 
             return (
@@ -667,6 +667,10 @@
             const [showProfilePopup, setShowProfilePopup] = useState(false);
             const [profileContent, setProfileContent] = useState({ name: '', text: '' });
 
+            // 강의록 뷰어 팝업 (New)
+            const [showViewer, setShowViewer] = useState(false);
+            const [viewerData, setViewerData] = useState({ title: '', fileName: '' });
+
             const OPEN_DATE = new Date('2026-01-30T17:00:00');
             const CLOSE_DATE = new Date('2026-01-30T22:00:00');
 
@@ -675,7 +679,7 @@
                 
                 // 시간 제한 체크: 시작 시간 제한 없음, 종료 시간만 체크
                 if (now > CLOSE_DATE) {
-                    setPopupContent({ icon: "ph-clock-after-noon", title: "다운로드 종료", message: "강의록 다운로드 기간이\n종료되었습니다.\n(1/30 22:00 마감)" });
+                    setPopupContent({ icon: "ph-clock-after-noon", title: "열람 종료", message: "강의록 열람 기간이\n종료되었습니다.\n(1/30 22:00 마감)" });
                     setShowPopup(true);
                     return;
                 }
@@ -687,14 +691,15 @@
                     return;
                 }
 
-                // 일반 다운로드 로직
+                // 강의록 뷰어 열기
                 if (fileName) {
-                    window.open(fileName, '_blank');
-                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 확인합니다.` });
+                    setViewerData({ title, fileName });
+                    setShowViewer(true);
                 } else {
-                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 다운로드합니다.` });
+                    // 파일이 없는 경우 (예: 전체 자료 버튼이나 파일 미지정)
+                    setPopupContent({ icon: "ph-download-simple", title: "준비 중", message: `'${title}'\n자료는 준비 중입니다.` });
+                    setShowPopup(true);
                 }
-                setShowPopup(true);
             };
 
             const handleProfile = (name, text) => {
@@ -876,6 +881,28 @@
                                 >
                                     닫기
                                 </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Lecture Note Viewer Modal */}
+                    {showViewer && (
+                        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 animate-fade-in-up">
+                            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowViewer(false)}></div>
+                            <div className="bg-white rounded-2xl w-full h-full max-w-5xl relative z-10 flex flex-col overflow-hidden shadow-2xl">
+                                <div className="flex justify-between items-center p-4 border-b bg-slate-50">
+                                    <h3 className="font-bold text-lg text-slate-800 truncate pr-4 font-cute-bold">{viewerData.title}</h3>
+                                    <button onClick={() => setShowViewer(false)} className="p-2 hover:bg-slate-200 rounded-full transition">
+                                        <i className="ph-bold ph-x text-xl text-slate-600"></i>
+                                    </button>
+                                </div>
+                                <div className="flex-1 bg-slate-100 relative">
+                                    <iframe 
+                                        src={viewerData.fileName} 
+                                        className="w-full h-full" 
+                                        title="Lecture Viewer"
+                                    ></iframe>
+                                </div>
                             </div>
                         </div>
                     )}
