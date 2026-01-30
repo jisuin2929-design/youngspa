@@ -160,7 +160,8 @@
                     time: "20:40 - 21:20", 
                     title: "REAL 새내기약사: 직속선배가 전하는 실전 1년", 
                     speaker: "청년약사위원회 지수인, 권나윤, 신현수", 
-                    color: "bg-slate-100 text-slate-800" 
+                    color: "bg-slate-100 text-slate-800",
+                    fileName: "2026 새내기약사 세미나 청년위.pdf" // 5번 강의록 파일 연결
                 },
             ];
 
@@ -196,7 +197,7 @@
                                 <span className="text-blue-600">우리도 처음이었어!</span>
                             </h1>
                             <p className="text-base md:text-xl text-slate-700 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
-                                설렘 반, 걱정 반으로 시작하는 약사 생활.<br className="hidden md:block"/>
+                                설렘 반, 걱정 반으로 시작하는 약사 생활.<br />
                                 선배들이 들려주는 실전 노하우와 꿀팁을 놓치지 마세요.
                             </p>
                             
@@ -298,16 +299,6 @@
                                         </div>
                                     </div>
                                 ))}
-                                
-                                <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-3 md:p-6 flex flex-col justify-center items-center text-center text-white shadow-lg hover:shadow-blue-500/40 transition-shadow cursor-pointer"
-                                    onClick={() => handleDownload('all', '전체 자료')}
-                                >
-                                    <div className="w-10 h-10 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 md:mb-4 backdrop-blur-sm">
-                                        <i className="ph-fill ph-folder-zip text-xl md:text-3xl"></i>
-                                    </div>
-                                    <h3 className="text-sm md:text-xl mb-1 md:mb-2 font-bold leading-tight">전체 자료<br className="md:hidden"/> 일괄 다운로드</h3>
-                                    <p className="text-blue-100 text-[10px] md:text-base font-medium">5개 강의록 한번에</p>
-                                </div>
                             </div>
                         </div>
                     </section>
@@ -477,7 +468,7 @@
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-12">
                                 <span className="text-brand-mint font-bold tracking-widest text-sm">MEMBERSHIP BENEFITS</span>
-                                <h2 className="text-3xl md:text-4xl font-cute-bold text-[#1e293b] mt-2">회비가 아깝지 않은, 회원만의 6가지 특권</h2>
+                                <h2 className="text-3xl md:text-4xl font-cute-bold text-[#1e293b] mt-2">회비가 아깝지 않은,<br className="md:hidden" /> 회원만의 6가지 특권</h2>
                             </div>
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -580,7 +571,7 @@
                                         <i className="fas fa-glass-cheers text-brand-mint mt-1 mr-3"></i>
                                         <div>
                                             <strong className="block text-lg">끈끈한 네트워킹</strong>
-                                            <span className="text-sm opacity-80">타운홀 미팅, 번개 모임, 동호회(등산, 봉사)로 만드는 평생 인맥.</span>
+                                            <span className="text-sm opacity-80">청년약사행사, 타운홀 미팅, 번개 모임으로 만드는 평생 인맥.</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -597,7 +588,6 @@
                                     <i className="fas fa-comment text-2xl group-hover:scale-110 transition-transform"></i>
                                     <span className="text-lg">오픈채팅방 입장하기</span>
                                 </a>
-                                <p className="mt-4 text-xs text-slate-400">입장 코드: kpa****</p>
                             </div>
                         </div>
                     </section>
@@ -648,7 +638,6 @@
                             <a href="https://license.kpanet.or.kr/" target="_blank" className="inline-block bg-[#1e293b] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition shadow-lg">
                                 통합 신고센터 바로가기
                             </a>
-                            <p className="mt-4 text-xs text-slate-500">문의: 서울특별시약사회 사무국 (02-581-1001)</p>
                         </div>
                     </section>
                 </div>
@@ -679,7 +668,7 @@
                 
                 // 시간 제한 체크: 시작 시간 제한 없음, 종료 시간만 체크
                 if (now > CLOSE_DATE) {
-                    setPopupContent({ icon: "ph-clock-after-noon", title: "열람 종료", message: "강의록 열람 기간이\n종료되었습니다.\n(1/30 22:00 마감)" });
+                    setPopupContent({ icon: "ph-clock-after-noon", title: "다운로드 종료", message: "강의록 다운로드 기간이\n종료되었습니다.\n(1/30 22:00 마감)" });
                     setShowPopup(true);
                     return;
                 }
@@ -691,15 +680,32 @@
                     return;
                 }
 
-                // 강의록 뷰어 열기
-                if (fileName) {
-                    setViewerData({ title, fileName });
-                    setShowViewer(true);
-                } else {
-                    // 파일이 없는 경우 (예: 전체 자료 버튼이나 파일 미지정)
-                    setPopupContent({ icon: "ph-download-simple", title: "준비 중", message: `'${title}'\n자료는 준비 중입니다.` });
+                // 3번 강의 (이상곤 약사) 예외 처리 (추가됨)
+                if (id === 3) {
+                    setPopupContent({ icon: "ph-camera", title: "강의록 공유 불가", message: "강의록 공유가 불가능해요😢\n약사님의 강연을 촬영해주세요 📸" });
                     setShowPopup(true);
+                    return;
                 }
+
+                // 4번 강의 (김병주 부회장) 예외 처리 (New)
+                if (id === 4) {
+                    setPopupContent({ 
+                        icon: "ph-pencil-simple-slash", 
+                        title: "준비 중", 
+                        message: "아직 강의록이 준비되지 않았어요 😢\n조금만 기다려주세요!" 
+                    });
+                    setShowPopup(true);
+                    return;
+                }
+
+                // 일반 다운로드 로직
+                if (fileName) {
+                    window.open(fileName, '_blank');
+                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 확인합니다.` });
+                } else {
+                    setPopupContent({ icon: "ph-download-simple", title: "다운로드 시작", message: `'${title}'\n자료를 다운로드합니다.` });
+                }
+                setShowPopup(true);
             };
 
             const handleProfile = (name, text) => {
